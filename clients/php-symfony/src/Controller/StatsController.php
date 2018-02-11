@@ -24,7 +24,7 @@ class StatsController extends AbstractController
 
         $this->guzzle = new GuzzleClient([
             'base_uri' => getenv('API_URL'),
-            'headers' => [
+            'headers'  => [
                 'x-api-username' => getenv('API_USERNAME'),
                 'x-api-key'      => getenv('API_KEY'),
             ],
@@ -40,7 +40,7 @@ class StatsController extends AbstractController
      */
     public function teamsAverageOffense(string $sport): Response
     {
-        $labels = [];
+        $labels  = [];
         $ratings = [];
 
         $response = $this->guzzle->request('GET', '/api/stats/teams/'.$sport.'/offense');
@@ -48,7 +48,7 @@ class StatsController extends AbstractController
 
         foreach ($teams as $team) {
             $ratings[] = $team['average_offensive_rating'];
-            $labels[] = $team['city'];
+            $labels[]  = $team['city'];
         }
 
         return $this->render('stats/category.html.twig', [
@@ -69,7 +69,7 @@ class StatsController extends AbstractController
      */
     public function teamsAverageDefense(string $sport): Response
     {
-        $labels = [];
+        $labels  = [];
         $ratings = [];
 
         $response = $this->guzzle->request('GET', '/api/stats/teams/'.$sport.'/defense');
@@ -77,7 +77,7 @@ class StatsController extends AbstractController
 
         foreach ($teams as $team) {
             $ratings[] = $team['average_defensive_rating'];
-            $labels[] = $team['city'];
+            $labels[]  = $team['city'];
         }
 
         return $this->render('stats/category.html.twig', [
@@ -107,7 +107,7 @@ class StatsController extends AbstractController
             $ratings[] = [$team['average_offensive_rating'], $team['average_defensive_rating']];
         }
 
-        $ratings = $this->flot->convert($ratings, 'vertical', $isTimeSeries = false);
+        $ratings     = $this->flot->convert($ratings, 'vertical', $isTimeSeries = false);
         $flotRatings = json_decode($ratings);
 
         for ($i = 0; $i < count($teams); $i++) {
@@ -116,13 +116,13 @@ class StatsController extends AbstractController
         }
 
         return $this->render('stats/category_side_by_side.html.twig', [
-            'title'    => 'NBA Average Ratings',
-            'minValue' => $this->getMinValue(strtoupper($sport), 'offense'),
-            'maxValue' => $this->getMaxValue(strtoupper($sport), 'offense'),
-            'labels'   => ['Average Offensive Rating', 'Average Defensive Rating'],
+            'title'     => 'NBA Average Ratings',
+            'minValue'  => $this->getMinValue(strtoupper($sport), 'offense'),
+            'maxValue'  => $this->getMaxValue(strtoupper($sport), 'offense'),
+            'labels'    => ['Average Offensive Rating', 'Average Defensive Rating'],
             'numSeries' => 2,
             'numValues' => count($teams),
-            'data'     => json_encode($flotRatings),
+            'data'      => json_encode($flotRatings),
         ]);
     }
 

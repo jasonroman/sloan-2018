@@ -1,0 +1,7 @@
+# Make sure the necessary packages are installed:
+
+pip install requests
+pip install plotly
+
+# http://landinghub.visualstudio.com/visual-cpp-build-tools
+pip install ggplot2

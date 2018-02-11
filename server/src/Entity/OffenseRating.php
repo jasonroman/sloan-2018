@@ -8,10 +8,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="defensive_rating")
+ * @ORM\Table(name="offense_rating")
  * @UniqueEntity({"team", "game_date"})
  */
-class DefensiveRating extends AbstractRating
+class OffenseRating extends AbstractRating
 {
     /**
      * @var int
@@ -42,7 +42,7 @@ class DefensiveRating extends AbstractRating
     /**
      * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="offensiveRatings")
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="offenseRatings")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      * })

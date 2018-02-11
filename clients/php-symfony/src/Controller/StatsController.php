@@ -47,14 +47,14 @@ class StatsController extends AbstractController
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
-            $ratings[] = $team['average_offensive_rating'];
+            $ratings[] = $team['average_offense_rating'];
             $labels[]  = $team['city'];
         }
 
         return $this->render('stats/category.html.twig', [
-            'title'    => 'NBA Offensive Ratings',
+            'title'    => 'NBA Team Average Offense Ratings',
             'minValue' => $this->getMinValue('NBA', 'offense'),
-            'maxValue' => $this->getMaxValue('NBA', 'offense'),
+            'maxValue' => $this->getMaxValue('NBA', 'offense') - 10,
             'labels'   => $labels,
             'data'     => $this->flot->convert($ratings, 'vertical', $isTimeSeries = false),
         ]);
@@ -76,14 +76,14 @@ class StatsController extends AbstractController
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
-            $ratings[] = $team['average_defensive_rating'];
+            $ratings[] = $team['average_defense_rating'];
             $labels[]  = $team['city'];
         }
 
         return $this->render('stats/category.html.twig', [
-            'title'    => 'NBA Defensive Ratings',
-            'minValue' => $this->getMinValue('NBA', 'defense'),
-            'maxValue' => $this->getMaxValue('NBA', 'defense'),
+            'title'    => 'NBA Team Average Defense Ratings',
+            'minValue' => $this->getMinValue('NBA', 'defense') + 5,
+            'maxValue' => $this->getMaxValue('NBA', 'defense') - 5,
             'labels'   => $labels,
             'data'     => $this->flot->convert($ratings, 'vertical', $isTimeSeries = false),
         ]);
@@ -104,22 +104,23 @@ class StatsController extends AbstractController
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
-            $ratings[] = [$team['average_offensive_rating'], $team['average_defensive_rating']];
+            $ratings[] = [$team['average_offense_rating'], $team['average_defense_rating']];
         }
 
         $ratings     = $this->flot->convert($ratings, 'vertical', $isTimeSeries = false);
-        $flotRatings = json_decode($ratings);
+        $flotRatings = json_decode($ratings, true);
 
         for ($i = 0; $i < count($teams); $i++) {
-            $flotRatings[$i]->label = $teams[$i]['full_name'];
-            $flotRatings[$i]->bars  = ['order' => ($i + 1)];
+            $flotRatings[$i]['label'] = $teams[$i]['full_name'];
+            $flotRatings[$i]['bars']  = ['order' => ($i + 1)];
         }
+        dump($flotRatings);
 
         return $this->render('stats/category_side_by_side.html.twig', [
-            'title'     => 'NBA Average Ratings',
+            'title'     => 'NBA Team Average Ratings',
             'minValue'  => $this->getMinValue(strtoupper($sport), 'offense'),
-            'maxValue'  => $this->getMaxValue(strtoupper($sport), 'offense'),
-            'labels'    => ['Average Offensive Rating', 'Average Defensive Rating'],
+            'maxValue'  => $this->getMaxValue(strtoupper($sport), 'offense') - 10,
+            'labels'    => ['Team Average Offense Rating', 'Team Average Defense Rating'],
             'numSeries' => 2,
             'numValues' => count($teams),
             'data'      => json_encode($flotRatings),
@@ -143,12 +144,12 @@ class StatsController extends AbstractController
         $responseInfo = $this->guzzle->request('GET', '/api/teams/'.$id);
         $teamInfo     = GuzzleHttp\json_decode($responseInfo->getBody(), true);
 
-        foreach ($team['offensive_ratings'] as $rating) {
+        foreach ($team['offense_ratings'] as $rating) {
             $ratings[$rating['game_date']] = $rating['rating'];
         }
 
         return $this->render('stats/dual_time.html.twig', [
-            'title'          => $team['full_name'].' Offensive Rating',
+            'title'          => $team['full_name'].' Offense Ratings',
             'minValue'       => $this->getMinValue($teamInfo['sport']['abbreviation'], 'offense'),
             'maxValue'       => $this->getMaxValue($teamInfo['sport']['abbreviation'], 'offense'),
             'dataVertical'   => $this->flot->convert($ratings, 'vertical', $isTimeSeries = true),
@@ -173,12 +174,12 @@ class StatsController extends AbstractController
         $responseInfo = $this->guzzle->request('GET', '/api/teams/'.$id);
         $teamInfo     = GuzzleHttp\json_decode($responseInfo->getBody(), true);
 
-        foreach ($team['defensive_ratings'] as $rating) {
+        foreach ($team['defense_ratings'] as $rating) {
             $ratings[$rating['game_date']] = $rating['rating'];
         }
 
         return $this->render('stats/dual_time.html.twig', [
-            'title'          => $team['full_name'].' Defensive Rating',
+            'title'          => $team['full_name'].' Defense Ratings',
             'minValue'       => $this->getMinValue($teamInfo['sport']['abbreviation'], 'defense'),
             'maxValue'       => $this->getMaxValue($teamInfo['sport']['abbreviation'], 'defense'),
             'dataVertical'   => $this->flot->convert($ratings, 'vertical', $isTimeSeries = true),

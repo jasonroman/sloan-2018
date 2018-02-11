@@ -41,6 +41,6 @@ class TeamRepository extends EntityRepository
             ->setParameter('name', $name)
             ->getQuery()
             ->getSingleResult()
-        ;
+            ;
     }
 }

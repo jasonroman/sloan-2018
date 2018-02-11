@@ -54,26 +54,26 @@ class Team
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="OffensiveRating", mappedBy="team")
-     * @Groups({"offensive_ratings_assoc"})
+     * @ORM\OneToMany(targetEntity="OffenseRating", mappedBy="team")
+     * @Groups({"offense_ratings_assoc"})
      */
-    private $offensiveRatings;
+    private $offenseRatings;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="DefensiveRating", mappedBy="team")
-     * @Groups({"defensive_ratings_assoc"})
+     * @ORM\OneToMany(targetEntity="DefenseRating", mappedBy="team")
+     * @Groups({"defense_ratings_assoc"})
      */
-    private $defensiveRatings;
+    private $defenseRatings;
 
     /**
      * Initialize empty collections for OneToMany associated entities.
      */
     public function __construct()
     {
-        $this->offensiveRatings = new ArrayCollection();
-        $this->defensiveRatings = new ArrayCollection();
+        $this->offenseRatings = new ArrayCollection();
+        $this->defenseRatings = new ArrayCollection();
     }
 
     /**
@@ -120,35 +120,35 @@ class Team
     /**
      * @return ArrayCollection
      */
-    public function getOffensiveRatings()
+    public function getOffenseRatings()
     {
-        return $this->offensiveRatings;
+        return $this->offenseRatings;
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getDefensiveRatings()
+    public function getDefenseRatings()
     {
-        return $this->defensiveRatings;
+        return $this->defenseRatings;
     }
 
     /**
-     * @Groups({"offensive_ratings_assoc"})
+     * @Groups({"offense_ratings_assoc"})
      * @return float
      */
-    public function getAverageOffensiveRating(): float
+    public function getAverageOffenseRating(): float
     {
-        return $this->getAverageRating($this->offensiveRatings);
+        return $this->getAverageRating($this->offenseRatings);
     }
 
     /**
-     * @Groups({"defensive_ratings_assoc"})
+     * @Groups({"defense_ratings_assoc"})
      * @return float
      */
-    public function getAverageDefensiveRating(): float
+    public function getAverageDefenseRating(): float
     {
-        return $this->getAverageRating($this->defensiveRatings);
+        return $this->getAverageRating($this->defenseRatings);
     }
 
     /**

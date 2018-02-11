@@ -26,7 +26,7 @@ class TeamsApiController extends Controller
     {
         /** @var Team[] $teams */
         $teams     = $this->getDoctrine()->getRepository(Team::class)->findAll();
-        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public', 'sport_link']]);
+        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public', 'sport_assoc']]);
 
         return JsonResponse::fromJsonString($jsonTeams);
     }
@@ -40,11 +40,24 @@ class TeamsApiController extends Controller
      */
     public function teamsNoAssociations(SerializerInterface $serializer)
     {
-        /** @var Team[] $teams */
-        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAll();
-        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public']]);
+        return $this->getTeams($serializer, ['public']);
+    }
 
-        return JsonResponse::fromJsonString($jsonTeams);
+    /**
+     * @Route("/{id}", name="api_teams_team")
+     * @Method({"GET"})
+     *
+     * @param SerializerInterface $serializer
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function team(SerializerInterface $serializer, int $id): JsonResponse
+    {
+        /** @var Team $team */
+        $team     = $this->getDoctrine()->getRepository(Team::class)->find($id);
+        $jsonTeam = $serializer->serialize($team, 'json', ['groups' => ['public', 'sport_assoc']]);
+
+        return JsonResponse::fromJsonString($jsonTeam);
     }
 
     /**
@@ -64,7 +77,7 @@ class TeamsApiController extends Controller
             throw $this->createNotFoundException('Sport does not exist');
         }
 
-        $jsonTeams = $serializer->serialize($sport->getTeams(), 'json', ['groups' => ['public', 'sport_link']]);
+        $jsonTeams = $serializer->serialize($sport->getTeams(), 'json', ['groups' => ['public', 'sport_assoc']]);
 
         return JsonResponse::fromJsonString($jsonTeams);
     }
@@ -88,7 +101,7 @@ class TeamsApiController extends Controller
             throw $this->createNotFoundException('Team does not exist');
         }
 
-        $jsonTeam = $serializer->serialize($team, 'json', ['groups' => ['public', 'sport_link']]);
+        $jsonTeam = $serializer->serialize($team, 'json', ['groups' => ['public', 'sport_assoc']]);
 
         return JsonResponse::fromJsonString($jsonTeam);
     }

@@ -1,0 +1,50 @@
+{% extends 'stats/layout.html.twig' %}
+
+{% block javascriptData %}
+    <script>
+        var minValue = {{ minValue }};
+        var maxValue = {{ maxValue }};
+
+        var data = {{ data|raw }};
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function() {
+            $.plot('#placeholder-vertical', data, {
+                xaxis: {
+                    min: -0.5,
+                    max: {{ labels|length - 0.5 }},
+                    mode: null,
+                    tickLength: 0,
+                    ticks: [
+                        {% for i, label in labels %}
+                        [{{ i }}, '{{ label }}']{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                },
+                yaxis: {
+                    min: minValue,
+                    max: maxValue
+                },
+                bars: {
+                    show: true,
+                    barWidth: (0.4 / {{ numSeries }}),
+                    numbers: {
+                        show: true,
+                        font: '10pt Arial',
+                        fontColor: '#555',
+                        xAlign: function(x) { return x + 0.1; },
+                        threshold: 0.25,
+                        yAlign: function(y) { return y; }, // shows numbers at the top of the bar
+                        yOffset: 8 // pixel offset so numbers are not right up on the edge of the top of the bar
+                    }
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

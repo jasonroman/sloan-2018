@@ -24,6 +24,7 @@ class PublicApiController extends Controller
      */
     public function users(SerializerInterface $serializer)
     {
+        /** @var User[] $user */
         $users     = $this->getDoctrine()->getRepository(User::class)->findAll();
         $jsonUsers = $serializer->serialize($users, 'json', ['groups' => ['public']]);
 
@@ -39,6 +40,7 @@ class PublicApiController extends Controller
      */
     public function usersSecret(SerializerInterface $serializer)
     {
+        /** @var User[] $user */
         $users     = $this->getDoctrine()->getRepository(User::class)->findAll();
         $jsonUsers = $serializer->serialize($users, 'json');
 
@@ -46,15 +48,38 @@ class PublicApiController extends Controller
     }
 
     /**
-     * @Route("/users/{username}", name="public_api_users_username")
+     * @Route("/users/{id}", name="public_api_users_user")
      * @Method({"GET"})
      *
-     * @param string $username
+     * @param SerializerInterface $serializer
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function user(SerializerInterface $serializer, int $id): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Could not find user');
+        }
+
+        $jsonUser = $serializer->serialize($user, 'json', ['groups' => ['public']]);
+
+        return JsonResponse::fromJsonString($jsonUser);
+    }
+
+    /**
+     * @Route("/users/{id}/serialize", name="public_api_users_user_serialize")
+     * @Method({"GET"})
+     *
+     * @param int $id
      * @return Response
      */
-    public function user($username)
+    public function userSerialize(int $id): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneByUsername($username);
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
         if (!$user) {
             throw $this->createNotFoundException('Could not find user');

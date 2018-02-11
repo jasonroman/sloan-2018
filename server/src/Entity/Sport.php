@@ -44,11 +44,13 @@ class Sport
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Team", mappedBy="sport")
-     * @Groups({"teams_link"})
+     * @Groups({"teams_assoc"})
      */
     private $teams;
 
-
+    /**
+     * Initialize empty collections for OneToMany associated entities.
+     */
     public function __construct()
     {
         $this->teams = new ArrayCollection();

@@ -25,7 +25,7 @@ class SportsApiController extends Controller
     {
         /** @var Sports[] $sports */
         $sports     = $this->getDoctrine()->getRepository(Sport::class)->findAll();
-        $jsonSports = $serializer->serialize($sports, 'json', ['groups' => ['public', 'teams_link']]);
+        $jsonSports = $serializer->serialize($sports, 'json', ['groups' => ['public', 'teams_assoc']]);
 
         return JsonResponse::fromJsonString($jsonSports);
     }
@@ -63,7 +63,7 @@ class SportsApiController extends Controller
             throw $this->createNotFoundException('Sport does not exist');
         }
 
-        $jsonSport = $serializer->serialize($sport, 'json', ['groups' => ['public', 'teams_link']]);
+        $jsonSport = $serializer->serialize($sport, 'json', ['groups' => ['public', 'teams_assoc']]);
 
         return JsonResponse::fromJsonString($jsonSport);
     }

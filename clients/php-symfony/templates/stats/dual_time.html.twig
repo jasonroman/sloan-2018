@@ -1,0 +1,18 @@
+{% extends 'stats/dual_layout.html.twig' %}
+
+{% block javascriptData %}
+    <script>
+        var minValue = {{ minValue }};
+        var maxValue = {{ maxValue }};
+
+        var dataVertical = {{ dataVertical|raw }};
+        var dataHorizontal = {{ dataHorizontal|raw }};
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="/js/flot_dual_time.js" type="text/javascript"></script>
+
+{% endblock %}

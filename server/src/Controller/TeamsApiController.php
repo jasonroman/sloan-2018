@@ -40,7 +40,11 @@ class TeamsApiController extends Controller
      */
     public function teamsNoAssociations(SerializerInterface $serializer)
     {
-        return $this->getTeams($serializer, ['public']);
+        /** @var Team[] $teams */
+        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAll();
+        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public']]);
+
+        return JsonResponse::fromJsonString($jsonTeams);
     }
 
     /**
@@ -61,7 +65,7 @@ class TeamsApiController extends Controller
     }
 
     /**
-     * @Route("/{league}/teams", name="api_teams_league_teams", requirements={"league"="[a-z]+"})
+     * @Route("/{league}", name="api_teams_league_teams", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer

@@ -56,8 +56,20 @@
     "doctrine/orm": {
         "version": "v2.6.0"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "d76d09603a98c2e2b78ef038ef8a961f51b86da0"
+        }
     },
     "ocramius/package-versions": {
         "version": "1.2.0"
@@ -94,6 +106,9 @@
             "version": "4.0",
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
+    },
+    "symfony/asset": {
+        "version": "v4.0.4"
     },
     "symfony/cache": {
         "version": "v4.0.4"
@@ -259,5 +274,8 @@
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.0"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.13"
     }
 }

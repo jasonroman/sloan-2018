@@ -38,7 +38,7 @@ class StatsController extends AbstractController
      * @param string $league
      * @return Response
      */
-    public function teamsAverageOffense(string $league): Response
+    public function teamsAverageOffense($league): Response
     {
         $labels  = [];
         $ratings = [];
@@ -67,7 +67,7 @@ class StatsController extends AbstractController
      * @param string $league
      * @return Response
      */
-    public function teamsAverageDefense(string $league): Response
+    public function teamsAverageDefense($league): Response
     {
         $labels  = [];
         $ratings = [];
@@ -96,7 +96,7 @@ class StatsController extends AbstractController
      * @param string $league
      * @return Response
      */
-    public function teamsAverageRatings(string $league): Response
+    public function teamsAverageRatings($league): Response
     {
         $ratings = [];
 
@@ -134,7 +134,7 @@ class StatsController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function teamOffense(int $id): Response
+    public function teamOffense($id): Response
     {
         $ratings = [];
 
@@ -164,7 +164,7 @@ class StatsController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function teamDefense(int $id): Response
+    public function teamDefense($id): Response
     {
         $ratings = [];
 

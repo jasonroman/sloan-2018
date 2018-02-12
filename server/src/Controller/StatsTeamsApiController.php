@@ -23,7 +23,7 @@ class StatsTeamsApiController extends Controller
      * @param string $league
      * @return JsonResponse
      */
-    public function teamsRatings(SerializerInterface $serializer, string $league): JsonResponse
+    public function teamsRatings(SerializerInterface $serializer, $league): JsonResponse
     {
         return $this->getTeams($league, $serializer, ['public', 'offense_ratings_assoc', 'defense_ratings_assoc']);
     }
@@ -36,7 +36,7 @@ class StatsTeamsApiController extends Controller
      * @param string $league
      * @return JsonResponse
      */
-    public function teamsOffenseRatings(SerializerInterface $serializer, string $league): JsonResponse
+    public function teamsOffenseRatings(SerializerInterface $serializer, $league): JsonResponse
     {
         return $this->getTeams($league, $serializer, ['public', 'offense_ratings_assoc']);
     }
@@ -49,7 +49,7 @@ class StatsTeamsApiController extends Controller
      * @param string $league
      * @return JsonResponse
      */
-    public function teamsDefenseRatings(SerializerInterface $serializer, string $league): JsonResponse
+    public function teamsDefenseRatings(SerializerInterface $serializer, $league): JsonResponse
     {
         return $this->getTeams($league, $serializer, ['public', 'defense_ratings_assoc']);
     }
@@ -62,7 +62,7 @@ class StatsTeamsApiController extends Controller
      * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function teamRatings(SerializerInterface $serializer, int $id): JsonResponse
+    public function teamRatings(SerializerInterface $serializer, $id): JsonResponse
     {
         return $this->getTeam($id, $serializer, ['public', 'offense_ratings_assoc', 'defense_ratings_assoc']);
     }
@@ -75,7 +75,7 @@ class StatsTeamsApiController extends Controller
      * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function teamOffenseRatings(SerializerInterface $serializer, int $id): JsonResponse
+    public function teamOffenseRatings(SerializerInterface $serializer, $id): JsonResponse
     {
         return $this->getTeam($id, $serializer, ['public', 'offense_ratings_assoc']);
     }
@@ -88,7 +88,7 @@ class StatsTeamsApiController extends Controller
      * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function teamDefenseRatings(SerializerInterface $serializer, int $id): JsonResponse
+    public function teamDefenseRatings(SerializerInterface $serializer, $id): JsonResponse
     {
         return $this->getTeam($id, $serializer, ['public', 'defense_ratings_assoc']);
     }

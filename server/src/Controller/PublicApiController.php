@@ -48,14 +48,14 @@ class PublicApiController extends Controller
     }
 
     /**
-     * @Route("/users/{id}", name="public_api_users_user")
+     * @Route("/users/{id}", name="public_api_users_user", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
      * @param int $id
      * @return JsonResponse
      */
-    public function user(SerializerInterface $serializer, int $id): JsonResponse
+    public function user(SerializerInterface $serializer, $id): JsonResponse
     {
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
@@ -70,13 +70,13 @@ class PublicApiController extends Controller
     }
 
     /**
-     * @Route("/users/{id}/serialize", name="public_api_users_user_serialize")
+     * @Route("/users/{id}/serialize", name="public_api_users_user_serialize", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
      * @param int $id
      * @return Response
      */
-    public function userSerialize(int $id): Response
+    public function userSerialize($id): Response
     {
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);

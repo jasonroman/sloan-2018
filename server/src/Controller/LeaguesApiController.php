@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LeaguesApiController extends Controller
 {
     /**
-     * @Route("/", name="api_leagues")
+     * @Route("/list", name="api_leagues")
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
@@ -47,14 +47,41 @@ class LeaguesApiController extends Controller
     }
 
     /**
-     * @Route("/{league}", name="api_leagues_league")
+     * @Route("/hardcoded-example", name="api_hardcoded_example")
+     * @Method({"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function hardcodedExample()
+    {
+        return new JsonResponse([
+            [
+                'id'        => 1,
+                'city'      => 'Houston',
+                'team_name' => 'Rockets',
+            ],
+            [
+                'id'        => 2,
+                'city'      => 'Detroit',
+                'team_name' => 'Pistons',
+            ],
+            [
+                'id'        => 3,
+                'city'      => 'Boston',
+                'team_name' => 'Celtics',
+            ],
+        ]);
+    }
+
+    /**
+     * @Route("/{league}", name="api_leagues_league", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
      * @param string $league
      * @return JsonResponse
      */
-    public function league(SerializerInterface $serializer, string $league)
+    public function league(SerializerInterface $serializer, $league)
     {
         /** @var League $league */
         $league = $this->getDoctrine()->getRepository(League::class)->findOneByAbbreviation($league);
@@ -69,14 +96,14 @@ class LeaguesApiController extends Controller
     }
 
     /**
-     * @Route("/{league}/teams", name="api_leagues_league_teams")
+     * @Route("/{league}/teams", name="api_leagues_league_teams", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
      * @param string $league
      * @return JsonResponse
      */
-    public function leagueTeams(SerializerInterface $serializer, string $league)
+    public function leagueTeams(SerializerInterface $serializer, $league)
     {
         /** @var League $league */
         $league = $this->getDoctrine()->getRepository(League::class)->findOneByAbbreviation($league);

@@ -60,14 +60,14 @@ class UsersApiController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="api_users_update")
+     * @Route("/{id}", name="api_users_update", requirements={"id"="\d+"})
      * @Method({"PATCH"})
      *
      * @param Request $request
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         // get the currently logged in user, and throw an error if the requested user id does not exist
 
@@ -112,13 +112,13 @@ class UsersApiController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="api_users_delete")
+     * @Route("/{id}", name="api_users_delete", requirements={"id"="\d+"})
      * @Method({"DELETE"})
      *
      * @param int $id
      * @return JsonResponse
      */
-    public function delete(int $id): JsonResponse
+    public function delete($id): JsonResponse
     {
         // get the currently logged in user, and throw an error if the requested user id does not exist
 

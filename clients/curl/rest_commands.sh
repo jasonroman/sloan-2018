@@ -20,14 +20,14 @@ curl -s http://sloan.jayroman.com/public/api/users/secret
 curl -is http://sloan.jayroman.com/public/api/users/all
 
 # attempt to retrieve the list of teams without authentication - will return a 401 unauthorized response
-curl -is http://sloan.jayroman.com/api/teams
+curl -is http://sloan.jayroman.com/api/teams/list
 
 # pass authentication headers to retrieve the list of teams with stats
-curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams
+curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams/list
 
 # pass the wrong authentication headers - will return a 403 access forbidden response
-curl -is -H "X-Api-Username: badusername" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams
-curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: badpassword" http://sloan.jayroman.com/api/teams
+curl -is -H "X-Api-Username: badusername" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams/list
+curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: badpassword" http://sloan.jayroman.com/api/teams/list
 
 # starting to get a bit unruly...separate out parameters on their own lines for clarity
 

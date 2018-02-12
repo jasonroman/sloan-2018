@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 12, 2018 at 12:26 AM
+-- Generation Time: Feb 12, 2018 at 12:55 AM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.26-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `sloan2018`
 --
+CREATE DATABASE IF NOT EXISTS `sloan2018` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sloan2018`;
 
 -- --------------------------------------------------------
 

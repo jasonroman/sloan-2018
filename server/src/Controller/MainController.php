@@ -17,8 +17,8 @@ class MainController extends Controller
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(): Response
     {
-        return new Response('Visit /api/teams and /public/api/users');
+        return $this->render('main/index.html.twig');
     }
 }

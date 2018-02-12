@@ -32,18 +32,18 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{sport}/offense/average", name="teams_offense_average")
+     * @Route("/teams/{league}/offense/average", name="teams_offense_average")
      * @Method({"GET"})
      *
-     * @param string $sport
+     * @param string $league
      * @return Response
      */
-    public function teamsAverageOffense(string $sport): Response
+    public function teamsAverageOffense(string $league): Response
     {
         $labels  = [];
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$sport.'/offense');
+        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/offense');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
@@ -61,18 +61,18 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{sport}/defense/average", name="teams_defense_average")
+     * @Route("/teams/{league}/defense/average", name="teams_defense_average")
      * @Method({"GET"})
      *
-     * @param string $sport
+     * @param string $league
      * @return Response
      */
-    public function teamsAverageDefense(string $sport): Response
+    public function teamsAverageDefense(string $league): Response
     {
         $labels  = [];
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$sport.'/defense');
+        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/defense');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
@@ -90,17 +90,17 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{sport}/ratings/average", name="teams_ratings_average")
+     * @Route("/teams/{league}/ratings/average", name="teams_ratings_average")
      * @Method({"GET"})
      *
-     * @param string $sport
+     * @param string $league
      * @return Response
      */
-    public function teamsAverageRatings(string $sport): Response
+    public function teamsAverageRatings(string $league): Response
     {
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$sport.'/ratings');
+        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/ratings');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
@@ -118,8 +118,8 @@ class StatsController extends AbstractController
 
         return $this->render('stats/category_side_by_side.html.twig', [
             'title'     => 'NBA Team Average Ratings',
-            'minValue'  => $this->getMinValue(strtoupper($sport), 'offense'),
-            'maxValue'  => $this->getMaxValue(strtoupper($sport), 'offense') - 10,
+            'minValue'  => $this->getMinValue(strtoupper($league), 'offense'),
+            'maxValue'  => $this->getMaxValue(strtoupper($league), 'offense') - 10,
             'labels'    => ['Team Average Offense Rating', 'Team Average Defense Rating'],
             'numSeries' => 2,
             'numValues' => count($teams),
@@ -150,8 +150,8 @@ class StatsController extends AbstractController
 
         return $this->render('stats/dual_time.html.twig', [
             'title'          => $team['full_name'].' Offense Ratings',
-            'minValue'       => $this->getMinValue($teamInfo['sport']['abbreviation'], 'offense'),
-            'maxValue'       => $this->getMaxValue($teamInfo['sport']['abbreviation'], 'offense'),
+            'minValue'       => $this->getMinValue($teamInfo['league']['abbreviation'], 'offense'),
+            'maxValue'       => $this->getMaxValue($teamInfo['league']['abbreviation'], 'offense'),
             'dataVertical'   => $this->flot->convert($ratings, 'vertical', $isTimeSeries = true),
             'dataHorizontal' => $this->flot->convert($ratings, 'horizonal', $isTimeSeries = true),
         ]);
@@ -180,25 +180,25 @@ class StatsController extends AbstractController
 
         return $this->render('stats/dual_time.html.twig', [
             'title'          => $team['full_name'].' Defense Ratings',
-            'minValue'       => $this->getMinValue($teamInfo['sport']['abbreviation'], 'defense'),
-            'maxValue'       => $this->getMaxValue($teamInfo['sport']['abbreviation'], 'defense'),
+            'minValue'       => $this->getMinValue($teamInfo['league']['abbreviation'], 'defense'),
+            'maxValue'       => $this->getMaxValue($teamInfo['league']['abbreviation'], 'defense'),
             'dataVertical'   => $this->flot->convert($ratings, 'vertical', $isTimeSeries = true),
             'dataHorizontal' => $this->flot->convert($ratings, 'horizonal', $isTimeSeries = true),
         ]);
     }
 
     /**
-     * Get the minimum axis value for the given sport abbreviation.
+     * Get the minimum axis value for the given league abbreviation.
      *
-     * @param string $sportAbbreviation
+     * @param string $leagueAbbreviation
      * @param string $type
      * @return int
      */
-    private function getMinValue(string $sportAbbreviation, string $type): int
+    private function getMinValue(string $leagueAbbreviation, string $type): int
     {
-        if ($sportAbbreviation === 'NBA') {
+        if ($leagueAbbreviation === 'NBA') {
             return 95;
-        } elseif ($sportAbbreviation === 'NFL') {
+        } elseif ($leagueAbbreviation === 'NFL') {
             return 20;
         }
 
@@ -206,17 +206,17 @@ class StatsController extends AbstractController
     }
 
     /**
-     * Get the minimum axis value for the given sport abbreviation.
+     * Get the minimum axis value for the given league abbreviation.
      *
-     * @param string $sportAbbreviation
+     * @param string $leagueAbbreviation
      * @param string $type
      * @return int
      */
-    private function getMaxValue(string $sportAbbreviation, string $type): int
+    private function getMaxValue(string $leagueAbbreviation, string $type): int
     {
-        if ($sportAbbreviation === 'NBA') {
+        if ($leagueAbbreviation === 'NBA') {
             return ($type === 'offense') ? 125 : 110;
-        } elseif ($sportAbbreviation === 'NFL') {
+        } elseif ($leagueAbbreviation === 'NFL') {
             return 35;
         }
 

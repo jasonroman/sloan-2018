@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
  * @ORM\Table(name="team")
- * @UniqueEntity({"sport", "city"})
+ * @UniqueEntity({"league", "city"})
  */
 class Team
 {
@@ -41,15 +41,15 @@ class Team
     private $name;
 
     /**
-     * @var Sport
+     * @var League
      *
-     * @ORM\ManyToOne(targetEntity="Sport", inversedBy="teams")
+     * @ORM\ManyToOne(targetEntity="League", inversedBy="teams")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="league_id", referencedColumnName="id")
      * })
-     * @Groups({"sport_assoc"})
+     * @Groups({"league_assoc"})
      */
-    private $sport;
+    private $league;
 
     /**
      * @var ArrayCollection
@@ -110,11 +110,11 @@ class Team
     }
 
     /**
-     * @return Sport
+     * @return League
      */
-    public function getSport(): Sport
+    public function getLeague(): League
     {
-        return $this->sport;
+        return $this->league;
     }
 
     /**

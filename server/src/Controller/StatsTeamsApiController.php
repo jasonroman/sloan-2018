@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Sport;
+use App\Entity\League;
 use App\Entity\Team;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,42 +16,42 @@ use Symfony\Component\Serializer\SerializerInterface;
 class StatsTeamsApiController extends Controller
 {
     /**
-     * @Route("/{sport}/ratings", name="api_stats_teams_ratings", requirements={"sport"="[a-z]+"})
+     * @Route("/{league}/ratings", name="api_stats_teams_ratings", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
-     * @param string $sport
+     * @param string $league
      * @return JsonResponse
      */
-    public function teamsRatings(SerializerInterface $serializer, string $sport): JsonResponse
+    public function teamsRatings(SerializerInterface $serializer, string $league): JsonResponse
     {
-        return $this->getTeams($sport, $serializer, ['public', 'offense_ratings_assoc', 'defense_ratings_assoc']);
+        return $this->getTeams($league, $serializer, ['public', 'offense_ratings_assoc', 'defense_ratings_assoc']);
     }
 
     /**
-     * @Route("/{sport}/offense", name="api_stats_teams_offense_ratings", requirements={"sport"="[a-z]+"})
+     * @Route("/{league}/offense", name="api_stats_teams_offense_ratings", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
-     * @param string $sport
+     * @param string $league
      * @return JsonResponse
      */
-    public function teamsOffenseRatings(SerializerInterface $serializer, string $sport): JsonResponse
+    public function teamsOffenseRatings(SerializerInterface $serializer, string $league): JsonResponse
     {
-        return $this->getTeams($sport, $serializer, ['public', 'offense_ratings_assoc']);
+        return $this->getTeams($league, $serializer, ['public', 'offense_ratings_assoc']);
     }
 
     /**
-     * @Route("/{sport}/defense", name="api_stats_teams_defense_ratings", requirements={"sport"="[a-z]+"})
+     * @Route("/{league}/defense", name="api_stats_teams_defense_ratings", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param SerializerInterface $serializer
-     * @param string $sport
+     * @param string $league
      * @return JsonResponse
      */
-    public function teamsDefenseRatings(SerializerInterface $serializer, string $sport): JsonResponse
+    public function teamsDefenseRatings(SerializerInterface $serializer, string $league): JsonResponse
     {
-        return $this->getTeams($sport, $serializer, ['public', 'defense_ratings_assoc']);
+        return $this->getTeams($league, $serializer, ['public', 'defense_ratings_assoc']);
     }
 
     /**
@@ -96,15 +96,15 @@ class StatsTeamsApiController extends Controller
     /**
      * Get all teams, and restrict particular results based on the passed in groups
      *
-     * @param string $sport
+     * @param string $league
      * @param SerializerInterface $serializer
      * @param array $groups
      * @return JsonResponse
      */
-    private function getTeams(string $sport, SerializerInterface $serializer, array $groups = ['public']): JsonResponse
+    private function getTeams(string $league, SerializerInterface $serializer, array $groups = ['public']): JsonResponse
     {
         /** @var Team[] $teams */
-        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAllBySport($sport);
+        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAllByLeague($league);
         $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => $groups]);
 
         return JsonResponse::fromJsonString($jsonTeams);

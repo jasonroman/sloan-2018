@@ -26,8 +26,7 @@ class ApiKeyAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * Called on every request. Return whatever credentials you want to
-     * be passed to getUser() as $credentials.
+     * Called on every request. Return whatever credentials you want to be passed to getUser() as $credentials.
      *
      * {@inheritdoc}
      */

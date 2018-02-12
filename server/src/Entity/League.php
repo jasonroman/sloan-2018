@@ -9,10 +9,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sport")
+ * @ORM\Table(name="league")
  * @UniqueEntity({"name"}, {"abbreviation"})
  */
-class Sport
+class League
 {
     /**
      * @var int
@@ -27,7 +27,7 @@ class Sport
     /**
      * @var string
      *
-     * @ORM\Column(name="sport_name", type="string", unique=true, length=50)
+     * @ORM\Column(name="league_name", type="string", unique=true, length=50)
      * @Groups({"public"})
      */
     private $name;
@@ -43,7 +43,7 @@ class Sport
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Team", mappedBy="sport")
+     * @ORM\OneToMany(targetEntity="Team", mappedBy="league")
      * @Groups({"teams_assoc"})
      */
     private $teams;

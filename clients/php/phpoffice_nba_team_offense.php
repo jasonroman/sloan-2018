@@ -22,7 +22,7 @@ $curl = curl_init();
 
 // set the curl options - url and headers, return response as string rather than output
 curl_setopt_array($curl, [
-    CURLOPT_URL            => 'http://sloan.test:8000/api/stats/teams/nba/offense',
+    CURLOPT_URL            => 'http://sloan.jayroman.com/api/stats/teams/nba/offense',
     CURLOPT_HTTPHEADER     => $headers,
     CURLOPT_RETURNTRANSFER => 1,
 ]);

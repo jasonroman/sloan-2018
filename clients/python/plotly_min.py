@@ -4,7 +4,7 @@ import requests
 
 x, y = [], []
 headers = {'X-Api-Username': 'sloan', 'X-Api-Key': 'sloan2018'}
-response = requests.get('http://sloan.test:8000/api/stats/teams/nba/offense', headers=headers)
+response = requests.get('http://sloan.jayroman.com/api/stats/teams/nba/offense', headers=headers)
 
 for team in response.json():
     x.append(team['full_name'])

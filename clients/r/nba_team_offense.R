@@ -3,7 +3,7 @@ require("jsonlite")
 require("ggplot2")
 
 # get the response from the api request, passing in the appropriate authentication headers
-response <- GET("http://sloan.test:8000/api/stats/teams/nba/offense", add_headers(
+response <- GET("http://sloan.jayroman.com/api/stats/teams/nba/offense", add_headers(
   'X-Api-Key' = 'sloan',
   'X-Api-Username' = 'sloan2018'
 ))

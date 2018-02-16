@@ -10,7 +10,7 @@ $headers = [
 ];
 
 // initiate the curl session at the given url
-$curl = curl_init('http://sloan.test:8000/api/stats/teams/nba/ratings');
+$curl = curl_init('http://sloan.jayroman.com/api/stats/teams/nba/ratings');
 
 // set the request headers
 curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

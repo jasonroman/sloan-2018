@@ -1,0 +1,16 @@
+{
+  "name": "sloan-2018-nodejs-express",
+  "version": "1.0.0",
+  "description": "Sloan 2018 REST API with Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Roman",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "pug": "^2.0.0-rc.4",
+    "request": "^2.83.0"
+  }
+}

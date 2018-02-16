@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title NBA Team Offense Ratings
+    link(href='/css/flot.css', rel='stylesheet', type='text/css')
+  body
+    #container
+      h1 NBA Team Offense
+      #placeholder
+    script(src='/js/vendor/jquery.min.js', type='text/javascript')
+    script(src='/js/vendor/jquery.flot.js', type='text/javascript')
+    script.
+      $.plot('#placeholder', [#{ratings}], {
+        xaxis: { tickLength: 0, ticks: !{labels} },
+        yaxis: { min: 95, max: 115 },
+        bars: { show: true, barWidth: 0.9 }
+      });

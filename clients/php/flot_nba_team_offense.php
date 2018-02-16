@@ -47,7 +47,7 @@ for ($i = 0; $i < count($teams); $i++) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>NBA Team Average Offense Ratings</title>
+    <title>NBA Team Offense Ratings</title>
     <link href="css/flot.css" rel="stylesheet" type="text/css">
 </head>
 <body>

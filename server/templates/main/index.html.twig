@@ -1,1 +1,45 @@
 {% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="starter-template">
+        <h1>REST API and JSON Graphing</h1>
+        <p class="lead">
+            Welcome to my Sloan 2018 Workshop page. Use the top navigation to
+            check out the REST API and GitHub repository.
+        </p>
+        <p>
+            To participate in the workshop you will need:
+            <ul>
+                <li>
+                    <a href="https://curl.haxx.se/download.html" target="_blank">cURL</a>
+                </li>
+            </ul>
+        </p>
+        <p>
+            It is also recommended that you use:
+            <ul>
+                <li>
+                    <a href="https://git-scm.com/downloads" target="_blank">Git</a>
+                </li>
+                <li>
+                    <a href="https://chrome.google.com/webstore/search/jsonview"
+                        target="_blank">JSONView Chrome Extension
+                    </a>
+                </li>
+            </ul>
+        </p>
+        <p>
+            To generate the graphs you will need at least one of the following programming languages:
+            <ul>
+                <li>Python</li>
+                <li>PHP</li>
+                <li>R</li>
+            </ul>
+        </p>
+        <p>
+            If you have any questions or comments, please contact me via Twitter at
+            <a href="{{ social.twitter }}" target="_blank">{{ social.twitter_short }}</a>,
+            or email me at <a href="mailto:{{ social.email }}">{{ social.email }}</a>
+        </p>
+    </div>
+{% endblock %}

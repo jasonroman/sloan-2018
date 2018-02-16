@@ -2,3 +2,12 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        social:
+            twitter: 'https://www.twitter.com/_jasonroman'
+            twitter_short: '@_jasonroman'
+            github: 'https://www.github.com/jasonroman/sloan-2018'
+            github_short: 'jasonroman/sloan-2018'
+            jayroman: 'http://jayroman.com'
+            email: 'j@jayroman.com'
+            sloan: 'http://www.sloansportsconference.com'

@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block googleAnalytics %}
+    {% if app.environment == 'prod' %}
+        {{ include('google_analytics.html.twig') }}
+    {% endif %}
+{% endblock %}
+
 {% block meta %}
     {{ parent() }}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,6 +15,7 @@
 
 {% block stylesheets %}
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/site.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -16,13 +23,8 @@
         {{ include('nav.html.twig') }}
     {% endblock %}
 
-    <main role="main" class="container">
-
-        <div class="starter-template">
-            <h1>Bootstrap starter template</h1>
-            <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-        </div>
-
+    <main role="main" class="container main-content">
+        {% block content %}{% endblock %}
     </main>
 {% endblock %}
 

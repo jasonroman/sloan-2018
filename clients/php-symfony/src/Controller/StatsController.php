@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\LeagueRatingsType;
+use App\Form\TeamRatingsType;
 use GuzzleHttp;
 use GuzzleHttp\Client as GuzzleClient;
 use JasonRoman\Flot\Flot;
@@ -32,13 +34,26 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{league}/offense/average", name="teams_offense_average")
+     * @Route("/", name="index")
+     * @Method({"GET"})
+     *
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return $this->render('stats/index.html.twig', [
+            'title' => 'League/Team Ratings',
+        ]);
+    }
+
+    /**
+     * @Route("/teams/{league}/offense", name="teams_offense", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param string $league
      * @return Response
      */
-    public function teamsAverageOffense($league): Response
+    public function teamsOffense($league): Response
     {
         $labels  = [];
         $ratings = [];
@@ -52,22 +67,22 @@ class StatsController extends AbstractController
         }
 
         return $this->render('stats/category.html.twig', [
-            'title'    => 'NBA Team Average Offense Ratings',
-            'minValue' => $this->getMinValue('NBA', 'offense'),
-            'maxValue' => $this->getMaxValue('NBA', 'offense') - 10,
+            'title'    => strtoupper($league).' Team Offense Ratings',
+            'minValue' => $this->getMinValue($league, 'offense'),
+            'maxValue' => $this->getMaxValue($league, 'offense') - 10,
             'labels'   => $labels,
             'data'     => $this->flot->convert($ratings, 'vertical', $isTimeSeries = false),
         ]);
     }
 
     /**
-     * @Route("/teams/{league}/defense/average", name="teams_defense_average")
+     * @Route("/teams/{league}/defense", name="teams_defense", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param string $league
      * @return Response
      */
-    public function teamsAverageDefense($league): Response
+    public function teamsDefense($league): Response
     {
         $labels  = [];
         $ratings = [];
@@ -81,22 +96,22 @@ class StatsController extends AbstractController
         }
 
         return $this->render('stats/category.html.twig', [
-            'title'    => 'NBA Team Average Defense Ratings',
-            'minValue' => $this->getMinValue('NBA', 'defense') + 5,
-            'maxValue' => $this->getMaxValue('NBA', 'defense') - 5,
+            'title'    => strtoupper($league).' Team Defense Ratings',
+            'minValue' => $this->getMinValue($league, 'defense') + 5,
+            'maxValue' => $this->getMaxValue($league, 'defense') - 5,
             'labels'   => $labels,
             'data'     => $this->flot->convert($ratings, 'vertical', $isTimeSeries = false),
         ]);
     }
 
     /**
-     * @Route("/teams/{league}/ratings/average", name="teams_ratings_average")
+     * @Route("/teams/{league}/ratings", name="teams_ratings", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
      * @param string $league
      * @return Response
      */
-    public function teamsAverageRatings($league): Response
+    public function teamsRatings($league): Response
     {
         $ratings = [];
 
@@ -114,13 +129,12 @@ class StatsController extends AbstractController
             $flotRatings[$i]['label'] = $teams[$i]['full_name'];
             $flotRatings[$i]['bars']  = ['order' => ($i + 1)];
         }
-        dump($flotRatings);
 
         return $this->render('stats/category_side_by_side.html.twig', [
-            'title'     => 'NBA Team Average Ratings',
+            'title'     => strtoupper($league).' Team Ratings',
             'minValue'  => $this->getMinValue(strtoupper($league), 'offense'),
             'maxValue'  => $this->getMaxValue(strtoupper($league), 'offense') - 10,
-            'labels'    => ['Team Average Offense Rating', 'Team Average Defense Rating'],
+            'labels'    => ['Team Offense Rating', 'Team Defense Rating'],
             'numSeries' => 2,
             'numValues' => count($teams),
             'data'      => json_encode($flotRatings),
@@ -128,7 +142,7 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{id}/offense", name="team_offense")
+     * @Route("/teams/{id}/offense", name="team_offense", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
      * @param int $id
@@ -158,7 +172,7 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/teams/{id}/defense", name="team_defense")
+     * @Route("/teams/{id}/defense", name="team_defense", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
      * @param int $id
@@ -188,6 +202,39 @@ class StatsController extends AbstractController
     }
 
     /**
+     * Make sure each page has the forms to submit.
+     *
+     * {@inheritdoc}
+     */
+    protected function render(string $view, array $parameters = [], Response $response = null): Response
+    {
+        $leagueResponseInfo = $this->guzzle->request('GET', '/api/leagues/list');
+        $leagues            = GuzzleHttp\json_decode($leagueResponseInfo->getBody(), true);
+
+        $teamResponseInfo = $this->guzzle->request('GET', '/api/teams/list');
+        $teams            = GuzzleHttp\json_decode($teamResponseInfo->getBody(), true);
+
+        $leagueChoices = [];
+        $teamChoices   = [];
+
+        foreach ($leagues as $league) {
+            $leagueChoices[strtoupper($league['abbreviation'])] = strtolower($league['abbreviation']);
+        }
+
+        foreach ($teams as $team) {
+            $teamChoices[($team['full_name'])] = $team['id'];
+        }
+
+        $leagueRatingsForm = $this->createForm(LeagueRatingsType::class, null, ['league_choices' => $leagueChoices]);
+        $teamRatingsForm   = $this->createForm(TeamRatingsType::class, null, ['team_choices' => $teamChoices]);
+
+        $parameters['league_ratings_form'] = $leagueRatingsForm->createView();
+        $parameters['team_ratings_form']   = $teamRatingsForm->createView();
+
+        return parent::render($view, $parameters);
+    }
+
+    /**
      * Get the minimum axis value for the given league abbreviation.
      *
      * @param string $leagueAbbreviation
@@ -196,9 +243,11 @@ class StatsController extends AbstractController
      */
     private function getMinValue(string $leagueAbbreviation, string $type): int
     {
-        if ($leagueAbbreviation === 'NBA') {
+        $leagueAbbreviation = strtolower($leagueAbbreviation);
+
+        if ($leagueAbbreviation === 'nba') {
             return 95;
-        } elseif ($leagueAbbreviation === 'NFL') {
+        } elseif ($leagueAbbreviation === 'nfl') {
             return 20;
         }
 
@@ -214,10 +263,12 @@ class StatsController extends AbstractController
      */
     private function getMaxValue(string $leagueAbbreviation, string $type): int
     {
-        if ($leagueAbbreviation === 'NBA') {
+        $leagueAbbreviation = strtolower($leagueAbbreviation);
+
+        if ($leagueAbbreviation === 'nba') {
             return ($type === 'offense') ? 125 : 110;
-        } elseif ($leagueAbbreviation === 'NFL') {
-            return 35;
+        } elseif ($leagueAbbreviation === 'nfl') {
+            return 45;
         }
 
         return 100;

@@ -21,4 +21,12 @@ class MainController extends Controller
     {
         return $this->render('main/index.html.twig');
     }
+
+    /**
+     * @Route("/client", name="client")
+     */
+    public function client(): Response
+    {
+        return $this->render('main/client.html.twig');
+    }
 }

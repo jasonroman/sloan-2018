@@ -1,0 +1,19 @@
+<br>
+
+<h4>League Ratings:</h4>
+
+{{ form_start(league_ratings_form) }}
+{{ form_row(league_ratings_form.league) }}
+{{ form_row(league_ratings_form.ratingsType) }}
+<input type="button" value=" Go! " onclick="getLeaguePage()">
+{{ form_end(league_ratings_form) }}
+
+<p>&nbsp;</p>
+
+<h4>Team Ratings:</h4>
+
+{{ form_start(team_ratings_form) }}
+{{ form_row(team_ratings_form.team) }}
+{{ form_row(team_ratings_form.ratingsType) }}
+<input type="button" value=" Go! " onclick="getTeamPage()">
+{{ form_end(team_ratings_form) }}

@@ -22,7 +22,7 @@
                     tickLength: 0,
                     ticks: [
                         {% for i, label in labels %}
-                        [{{ i }}, '{{ label }}']{% if not loop.last %},{% endif %}
+                            [{{ i }}, '{{ label }}']{% if not loop.last %},{% endif %}
                         {% endfor %}
                     ]
                 },

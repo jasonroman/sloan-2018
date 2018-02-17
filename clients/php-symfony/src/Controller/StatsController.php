@@ -58,7 +58,7 @@ class StatsController extends AbstractController
         $labels  = [];
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/offense');
+        $response = $this->guzzle->request('GET', '/api/stats/league-teams/'.$league.'/offense');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
@@ -87,7 +87,7 @@ class StatsController extends AbstractController
         $labels  = [];
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/defense');
+        $response = $this->guzzle->request('GET', '/api/stats/league-teams/'.$league.'/defense');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {
@@ -115,7 +115,7 @@ class StatsController extends AbstractController
     {
         $ratings = [];
 
-        $response = $this->guzzle->request('GET', '/api/stats/teams/'.$league.'/ratings');
+        $response = $this->guzzle->request('GET', '/api/stats/league-teams/'.$league.'/ratings');
         $teams    = GuzzleHttp\json_decode($response->getBody(), true);
 
         foreach ($teams as $team) {

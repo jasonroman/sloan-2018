@@ -18,6 +18,10 @@ class StatsController extends AbstractController
      * @var GuzzleClient
      */
     private $guzzle;
+
+    /**
+     * @var Flot
+     */
     private $flot;
 
     public function __construct()

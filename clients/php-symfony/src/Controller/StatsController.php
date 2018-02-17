@@ -208,10 +208,10 @@ class StatsController extends AbstractController
      */
     protected function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $leagueResponseInfo = $this->guzzle->request('GET', '/api/leagues/list');
+        $leagueResponseInfo = $this->guzzle->request('GET', '/api/leagues');
         $leagues            = GuzzleHttp\json_decode($leagueResponseInfo->getBody(), true);
 
-        $teamResponseInfo = $this->guzzle->request('GET', '/api/teams/list');
+        $teamResponseInfo = $this->guzzle->request('GET', '/api/teams');
         $teams            = GuzzleHttp\json_decode($teamResponseInfo->getBody(), true);
 
         $leagueChoices = [];

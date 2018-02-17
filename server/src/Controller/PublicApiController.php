@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/public/api")
@@ -19,43 +18,38 @@ class PublicApiController extends Controller
      * @Route("/users", name="public_api_users")
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function users(SerializerInterface $serializer)
+    public function users(): JsonResponse
     {
         /** @var User[] $user */
-        $users     = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $jsonUsers = $serializer->serialize($users, 'json', ['groups' => ['public']]);
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return JsonResponse::fromJsonString($jsonUsers);
+        return $this->json($users, Response::HTTP_OK, [], ['groups' => ['public']]);
     }
 
     /**
      * @Route("/users/secret", name="public_api_users_secret")
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function usersSecret(SerializerInterface $serializer)
+    public function usersSecret(): JsonResponse
     {
         /** @var User[] $user */
-        $users     = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $jsonUsers = $serializer->serialize($users, 'json');
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return JsonResponse::fromJsonString($jsonUsers);
+        return $this->json($users);
     }
 
     /**
      * @Route("/users/{id}", name="public_api_users_user", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @param int $id
      * @return JsonResponse
      */
-    public function user(SerializerInterface $serializer, $id): JsonResponse
+    public function user($id): JsonResponse
     {
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
@@ -64,9 +58,7 @@ class PublicApiController extends Controller
             throw $this->createNotFoundException('Could not find user');
         }
 
-        $jsonUser = $serializer->serialize($user, 'json', ['groups' => ['public']]);
-
-        return JsonResponse::fromJsonString($jsonUser);
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => ['public']]);
     }
 
     /**

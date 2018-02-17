@@ -37,6 +37,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", unique=true, length=128)
+     * @Groups({"apiKey"})
      */
     private $apiKey;
 

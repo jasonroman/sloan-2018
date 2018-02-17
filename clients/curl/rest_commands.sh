@@ -20,46 +20,35 @@ curl -s http://sloan.jayroman.com/public/api/users/secret
 curl -is http://sloan.jayroman.com/public/api/users/all
 
 # attempt to retrieve the list of teams without authentication - will return a 401 unauthorized response
-curl -is http://sloan.jayroman.com/api/teams/list
+curl -is http://sloan.jayroman.com/api/teams
 
 # pass authentication headers to retrieve the list of teams with stats
-curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams/list
+curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams
 
 # pass the wrong authentication headers - will return a 403 access forbidden response
-curl -is -H "X-Api-Username: badusername" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams/list
-curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: badpassword" http://sloan.jayroman.com/api/teams/list
+curl -is -H "X-Api-Username: badusername" -H "X-Api-Key: sloan2018" http://sloan.jayroman.com/api/teams
+curl -is -H "X-Api-Username: sloan" -H "X-Api-Key: badpassword" http://sloan.jayroman.com/api/teams
+
+# try to add a get users with a POST request instead of GET - will return a 405 method not allowed response
+curl -is -X "POST" http://127.0.0.1:8000/public/api/users
 
 # starting to get a bit unruly...separate out parameters on their own lines for clarity
 
-# add a new user and get their id and api key as the response
+# add a new user and get their id and api key as the response 0 will return a 201 created
+# response with the location where the newly created user can be accessed
 curl -is \
     -X "POST" \
     -H "X-Api-Username: sloan" \
     -H "X-Api-Key: sloan2018" \
     -F 'username=newuser' \
-    http://sloan.jayroman.com/api/users/add
+    http://sloan.jayroman.com/api/users
 
-# try to add a new user with a GET request instead of POST - will return a 405 method not allowed response
-curl -is \
-    -X "GET" \
-    -H "X-Api-Username: sloan" \
-    -H "X-Api-Key: sloan2018" \
-    -F 'username=new1' \
-    http://sloan.jayroman.com/api/users/add
-
-# try to add a new user that already exists - will return a 500 error response
+# try to add a new user that already exists - will return a 400 bad request response
 curl -is \
     -H "X-Api-Username: sloan" \
     -H "X-Api-Key: sloan2018" \
     -F 'username=jason' \
-    http://sloan.jayroman.com/api/users/add
-
-# delete a user by user id
-curl -is \
-    -X "DELETE" \
-    -H "X-Api-Username: newuser" \
-    -H "X-Api-Key: 9wM78XZV" \
-    http://sloan.jayroman.com/api/users/3
+    http://sloan.jayroman.com/api/users
 
 # update a user's email address by user id
 curl -is \
@@ -69,3 +58,12 @@ curl -is \
     -H "Content-Type: application/json" \
     --data '{"email": "test@test.com"}' \
     http://sloan.jayroman.com/api/users/3
+
+# delete a user by user id
+curl -is \
+    -X "DELETE" \
+    -H "X-Api-Username: newuser" \
+    -H "X-Api-Key: 9wM78XZV" \
+    http://sloan.jayroman.com/api/users/3
+
+

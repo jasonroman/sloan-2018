@@ -78,7 +78,7 @@ class ApiKeyAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $data = ['message' => strtr($exception->getMessageKey(), $exception->getMessageData())];
+        $data = ['error' => strtr($exception->getMessageKey(), $exception->getMessageData())];
 
         return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
@@ -90,7 +90,7 @@ class ApiKeyAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        $data = ['message' => 'Authentication Required'];
+        $data = ['error' => 'Authentication Required'];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }

@@ -8,71 +8,68 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/api/teams")
+ * @Route("/api")
  */
 class TeamsApiController extends Controller
 {
     /**
-     * @Route("/list", name="api_teams")
+     * @Route("/teams", name="api_teams_list")
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function teams(SerializerInterface $serializer)
+    public function teams(): JsonResponse
     {
         /** @var Team[] $teams */
-        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAll();
-        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public', 'league_assoc']]);
+        $teams = $this->getDoctrine()->getRepository(Team::class)->findAll();
 
-        return JsonResponse::fromJsonString($jsonTeams);
+        return $this->json($teams, Response::HTTP_OK, [], ['groups' => ['public', 'league_assoc']]);
     }
 
     /**
-     * @Route("/no-associations", name="api_teams_no_associations")
+     * @Route("/teams/no-associations", name="api_teams_no_associations")
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @return JsonResponse
      */
-    public function teamsNoAssociations(SerializerInterface $serializer)
+    public function teamsNoAssociations(): JsonResponse
     {
         /** @var Team[] $teams */
-        $teams     = $this->getDoctrine()->getRepository(Team::class)->findAll();
-        $jsonTeams = $serializer->serialize($teams, 'json', ['groups' => ['public']]);
+        $teams = $this->getDoctrine()->getRepository(Team::class)->findAll();
 
-        return JsonResponse::fromJsonString($jsonTeams);
+        return $this->json($teams, Response::HTTP_OK, [], ['groups' => ['public']]);
     }
 
     /**
-     * @Route("/{id}", name="api_teams_team", requirements={"id"="\d+"})
+     * @Route("/teams/{id}", name="api_teams_team", requirements={"id"="\d+"})
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @param int $id
      * @return JsonResponse
      */
-    public function team(SerializerInterface $serializer, $id): JsonResponse
+    public function team($id): JsonResponse
     {
         /** @var Team $team */
-        $team     = $this->getDoctrine()->getRepository(Team::class)->find($id);
-        $jsonTeam = $serializer->serialize($team, 'json', ['groups' => ['public', 'league_assoc']]);
+        $team = $this->getDoctrine()->getRepository(Team::class)->find($id);
 
-        return JsonResponse::fromJsonString($jsonTeam);
+        if (!$team) {
+            throw $this->createNotFoundException('Team does not exist');
+        }
+
+        return $this->json($team, Response::HTTP_OK, [], ['groups' => ['public', 'league_assoc']]);
     }
 
     /**
-     * @Route("/{league}", name="api_teams_league_teams", requirements={"league"="[a-z]+"})
+     * @Route("/teams/{league}", name="api_teams_league_teams", requirements={"league"="[a-z]+"})
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @param string $league
      * @return JsonResponse
      */
-    public function leagueTeams(SerializerInterface $serializer, $league)
+    public function leagueTeams($league): JsonResponse
     {
         /** @var League $league */
         $league = $this->getDoctrine()->getRepository(League::class)->findOneByAbbreviation($league);
@@ -81,23 +78,20 @@ class TeamsApiController extends Controller
             throw $this->createNotFoundException('League does not exist');
         }
 
-        $jsonTeams = $serializer->serialize($league->getTeams(), 'json', ['groups' => ['public', 'league_assoc']]);
-
-        return JsonResponse::fromJsonString($jsonTeams);
+        return $this->json($league->getTeams(), Response::HTTP_OK, [], ['groups' => ['public']]);
     }
 
     /**
-     * @Route("/{league}/{name}", name="api_teams_league_team", requirements={"league"="[a-z]+", "name"="[a-z]+"})
+     * @Route("/teams/{league}/{name}", name="api_teams_league_team", requirements={"league"="[a-z]+", "name"="[a-z]+"})
      * @Method({"GET"})
      *
-     * @param SerializerInterface $serializer
      * @param string $league
      * @param string $name
      * @return JsonResponse
      */
-    public function leagueTeam(SerializerInterface $serializer, $league, $name)
+    public function leagueTeam($league, $name): JsonResponse
     {
-        /** @var Team $teams */
+        /** @var Team $team */
         $team = $this->getDoctrine()->getRepository(Team::class)
             ->findOneByLeagueAbbreviationAndCityOrName($league, $name);
 
@@ -105,8 +99,6 @@ class TeamsApiController extends Controller
             throw $this->createNotFoundException('Team does not exist');
         }
 
-        $jsonTeam = $serializer->serialize($team, 'json', ['groups' => ['public', 'league_assoc']]);
-
-        return JsonResponse::fromJsonString($jsonTeam);
+        return $this->json($team, Response::HTTP_OK, [], ['groups' => ['public', 'league_assoc']]);
     }
 }

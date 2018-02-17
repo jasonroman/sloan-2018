@@ -12,3 +12,5 @@ twig:
             email: 'j@jayroman.com'
             sloan: 'http://www.sloansportsconference.com'
             presentation: 'https://github.com/jasonroman/sloan-2018/raw/master/presentation/rest-api-json-graphing.pptx'
+        sloan:
+            client: '%env(SLOAN_CLIENT)%'

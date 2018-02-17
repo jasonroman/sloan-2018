@@ -1,42 +1,31 @@
-* { padding: 0; margin: 0; vertical-align: top; }
+* { padding: 0; margin: 0; }
 
 body {
     background: url("../images/background.png") repeat-x;
-    font: 18px/1.5em "proxima-nova", Helvetica, Arial, sans-serif;
+    font: 16px/1.5em "proxima-nova", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    height: 100%;
 }
-
-a { color: #069; }
-a:hover { color: #28b; }
 
 .clear { clear: both; }
 
-h2 {
-    margin-top: 15px;
-    font: normal 32px "omnes-pro", Helvetica, Arial, sans-serif;
-    text-align: center;
-}
-
-h3 {
-    margin-left: 30px;
-    font: normal 26px "omnes-pro", Helvetica, Arial, sans-serif;
-    color: #666;
+h4 {
+    font-size: 18px;
+    padding-bottom: 10px;
 }
 
 p {
     margin-top: 10px;
 }
 
-button {
-    font-size: 18px;
-    padding: 1px 7px;
+label {
+    font-size: 14px;
 }
 
-input {
-    font-size: 18px;
-}
-
-input[type=checkbox] {
-    margin: 7px;
+input[type=button] {
+    margin-top: 10px;
+    font-size: 15px;
+    padding: 3px;
 }
 
 #left { float: left; }
@@ -50,25 +39,19 @@ input[type=checkbox] {
 
 #header h2 {
     margin-left: 10px;
+    margin-top: 30px;
     vertical-align: middle;
-    font-size: 42px;
+    font-size: 36px;
     font-weight: bold;
     text-decoration: none;
     color: #000;
+    text-align: center;
 }
 
 #content {
     width: 880px;
     margin: 0 auto;
     padding: 10px;
-}
-
-#footer {
-    margin-top: 25px;
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 12px;
-    color: #999;
 }
 
 .demo-container {
@@ -96,8 +79,4 @@ input[type=checkbox] {
     height: 100%;
     font-size: 14px;
     line-height: 1.2em;
-}
-
-.legend table {
-    border-spacing: 5px;
 }

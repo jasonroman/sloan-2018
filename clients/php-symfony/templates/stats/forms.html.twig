@@ -3,8 +3,17 @@
 <h4>League Ratings:</h4>
 
 {{ form_start(league_ratings_form) }}
-{{ form_row(league_ratings_form.league) }}
-{{ form_row(league_ratings_form.ratingsType) }}
+<table>
+    <tr>
+        <td>{{ form_label(league_ratings_form.league) }}</td>
+        <td>{{ form_widget(league_ratings_form.league) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(league_ratings_form.ratingsType) }} &nbsp;</td>
+        <td>{{ form_widget(league_ratings_form.ratingsType) }}</td>
+    </tr>
+</table>
+
 <input type="button" value=" Go! " onclick="getLeaguePage()">
 {{ form_end(league_ratings_form) }}
 
@@ -13,7 +22,17 @@
 <h4>Team Ratings:</h4>
 
 {{ form_start(team_ratings_form) }}
-{{ form_row(team_ratings_form.team) }}
-{{ form_row(team_ratings_form.ratingsType) }}
+<table>
+    <tr>
+        <td>{{ form_label(team_ratings_form.team) }}</td>
+        <td>{{ form_widget(team_ratings_form.team) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(team_ratings_form.ratingsType) }} &nbsp;</td>
+        <td>{{ form_widget(team_ratings_form.ratingsType) }}</td>
+    </tr>
+</table>
+
 <input type="button" value=" Go! " onclick="getTeamPage()">
+
 {{ form_end(team_ratings_form) }}

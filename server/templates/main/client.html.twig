@@ -1,5 +1,13 @@
 {% extends 'layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="/css/client.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-    <iframe src="http://sloan-client.jayroman.com"></iframe>
+    <div id="iframe-container">
+        <iframe src="{{ sloan.client }}"></iframe>
+    </div>
 {% endblock %}

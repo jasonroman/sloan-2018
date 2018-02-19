@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // main page
 app.get('/', (req, res) => {
   // get the nba teams offense ratings from the API
-  request.get({url: BASE_URL + '/api/stats/teams/nba/offense', headers: HEADERS}, (err, req, body) => {
+  request.get({url: BASE_URL + '/api/stats/league-teams/nba/offense', headers: HEADERS}, (err, req, body) => {
     var ratings = [];
     var labels = [];
 

@@ -10,7 +10,7 @@ headers = {
 }
 
 # send the api request and get the response as json
-response = requests.get('http://sloan.jayroman.com/api/stats/teams/nba/ratings', headers=headers)
+response = requests.get('http://sloan.jayroman.com/api/stats/league-teams/nba/ratings', headers=headers)
 teams = response.json()
 
 offense_x = []

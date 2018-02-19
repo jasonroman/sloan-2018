@@ -10,7 +10,7 @@ $headers = [
 ];
 
 // initiate the curl session at the given url
-$curl = curl_init('http://sloan.jayroman.com/api/stats/teams/nba/offense');
+$curl = curl_init('http://sloan.jayroman.com/api/stats/league-teams/nba/offense');
 
 // set the request headers
 curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

@@ -4,8 +4,8 @@ require("ggplot2")
 
 # get the response from the api request, passing in the appropriate authentication headers
 response <- GET("http://sloan.jayroman.com/api/stats/league-teams/nba/offense", add_headers(
-  'X-Api-Key' = 'sloan',
-  'X-Api-Username' = 'sloan2018'
+  'X-Api-Username' = 'sloan',
+  'X-Api-Key' = 'sloan2018'
 ))
 
 # convert the teams to a list from the JSON response

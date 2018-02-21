@@ -51,9 +51,8 @@ foreach ($teams as $team) {
 $spreadsheet = new Spreadsheet();
 $worksheet   = $spreadsheet->getActiveSheet();
 
-// initiate the data and title of the worksheet, and auto-size the data columns
+// initiate the data and of the worksheet and auto-size the data columns
 $worksheet->fromArray($data);
-$worksheet->setTitle($title);
 $worksheet->getColumnDimensionByColumn(1)->setAutoSize(true);
 $worksheet->getColumnDimensionByColumn(2)->setAutoSize(true);
 
